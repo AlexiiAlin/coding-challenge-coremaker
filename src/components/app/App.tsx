@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
 import './App.css';
 import Login from "../login/Login";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import Profile from "../profile/Profile";
-import Dashboard from "../dashboard/Dashboard";
 import NavBar from "../nav-bar/NavBar";
 import {GoogleLogin, GoogleLogout} from "react-google-login";
+import {useDispatch} from "react-redux";
+import {UsersActions} from "../../store/users/users-actions";
 
 const clientId = "97413323003-t523ij14qp0k8cl626577poi1q712vpl.apps.googleusercontent.com";
 
 function App() {
+  const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const onLoginSuccess = (res: any) => {
-    console.log('Login Success:', res.profileObj);
     setIsLoggedIn(true);
+    dispatch(UsersActions.setUserInfo(res.profileObj))
   };
 
   const onLoginFailure = (res: any) => {
@@ -21,7 +23,6 @@ function App() {
   };
 
   const onSignoutSuccess = () => {
-    alert("You have been logged out successfully");
     console.clear();
     setIsLoggedIn(false);
   };
@@ -49,6 +50,7 @@ function App() {
                 return <Profile {...props} isLoggedIn={isLoggedIn}/>
               }}
             />
+
             <Route
               path="/login"
               render={(props) => {
@@ -67,10 +69,7 @@ function App() {
                 )
               }}
             />
-            <Route
-              path="/"
-              render={(props) => <Dashboard {...props} />}
-            />
+            <Redirect from="/" to="/login" />
           </Switch>
         </BrowserRouter>
       </header>

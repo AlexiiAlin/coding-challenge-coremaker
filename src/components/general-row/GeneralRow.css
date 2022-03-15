@@ -1,8 +1,3 @@
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
 .general-row, .general-column {
   display: flex;
   width: 50%;
@@ -19,12 +14,4 @@
 .general-value {
   width: 50%;
   min-width: 200px;
-}
-
-.profile-image {
-  width: 128px;
-  height: 128px;
-  align-self: center;
-  border-radius: 50%;
-  margin-bottom: 24px;
 }
